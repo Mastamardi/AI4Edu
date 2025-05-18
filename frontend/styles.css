@@ -1,0 +1,264 @@
+/* About Section Styles */
+.about-section {
+    padding: 4rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.about-header h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.mission-statement {
+    font-size: 1.2rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.bio-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.bio-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.bio-section p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.highlight-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.highlight-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.highlight-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.highlight-card h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.highlight-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.team-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.team-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+.team-section p {
+    color: #666;
+    line-height: 1.8;
+}
+
+/* Animation Classes */
+[data-aos] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Smooth Scroll Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Quiz Questions Styles */
+.quiz-questions {
+    margin: 2rem 0;
+}
+
+.quiz-question {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 1.5rem;
+}
+
+.quiz-question h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.option:hover {
+    background-color: #f5f7fa;
+}
+
+.option input[type="radio"] {
+    margin-right: 1rem;
+}
+
+.feedback {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+}
+
+.feedback.correct {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.feedback.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.feedback.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.check-answers {
+    margin-top: 1rem;
+    background-color: var(--primary-color);
+}
+
+/* Flashcards Styles */
+.flashcards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.flashcard {
+    perspective: 1000px;
+    height: 200px;
+}
+
+.flashcard-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.flashcard:hover .flashcard-inner {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.flashcard-back {
+    transform: rotateY(180deg);
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Keywords Styles */
+.keywords {
+    margin: 2rem 0;
+}
+
+.keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.keyword {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+/* Summary Styles */
+.summary {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin: 2rem 0;
+}
+
+.summary h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+} 

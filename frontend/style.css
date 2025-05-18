@@ -1,0 +1,128 @@
+.quiz-question {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-question h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.quiz-question p {
+    color: #555;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.quiz-option {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    transition: all 0.2s ease;
+}
+
+.quiz-option:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.quiz-option label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0;
+    width: 100%;
+}
+
+.quiz-option input[type="radio"] {
+    margin-right: 10px;
+}
+
+.feedback {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.feedback.correct {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.feedback.incorrect {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+#quiz-results {
+    background-color: #e9ecef;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#quiz-results h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#quiz-results p {
+    color: #555;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.submit-quiz {
+    display: block;
+    width: 100%;
+    max-width: 200px;
+    margin: 20px auto;
+    padding: 12px 24px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.submit-quiz:hover {
+    background-color: #0056b3;
+}
+
+.submit-quiz:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.quiz-message {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.quiz-message p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin: 0;
+} 

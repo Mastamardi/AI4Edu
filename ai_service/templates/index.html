@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI4Edu - Quality Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='features/studyplan/style.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='features/studyplan/script.js') }}" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f8f9fa;
+        }
+
+        .footer {
+            margin-top: auto;
+        }
+
+        .navbar-brand i {
+            font-size: 1.5rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card {
+            transition: transform 0.2s ease-in-out;
+            border: none;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .results-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .flashcard {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-2px);
+        }
+
+        .quiz-card {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .keywords-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .keyword {
+            background: #e9ecef;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .keyword:hover {
+            background: #dee2e6;
+            transform: scale(1.05);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .error-message {
+            color: #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #dc3545;
+            border-radius: 8px;
+            background: #f8d7da;
+        }
+
+        .card {
+            border: none;
+            transition: box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13,110,253,.15);
+        }
+
+        .btn-primary {
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+        }
+
+        .social-icons {
+            font-size: 1.2rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .results-fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+
+        .result-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .feature-card {
+                margin-bottom: 1rem;
+            }
+            
+            .footer {
+                text-align: center;
+            }
+            
+            .social-icons {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <i class="fas fa-brain me-2"></i>
+                AI4EDU
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-1"></i> Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-question-circle me-1"></i> Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <button id="studyPlanBtn" class="btn btn-success" style="margin: 8px 15px;">
+                            <i class="fas fa-calendar me-1"></i> StudyPlans
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h2 class="mb-0">
+                            <i class="fas fa-robot text-primary me-2"></i>
+                            AI Text Processor
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="text" class="form-label">
+                                <i class="fas fa-pen me-1"></i>
+                                Enter your text:
+                            </label>
+                            <div class="input-group">
+                                <textarea class="form-control" id="text" rows="5" 
+                                    placeholder="Enter your text here... The AI will analyze it and generate educational content."
+                                ></textarea>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <div class="text-muted small">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Supports multiple languages and formats
+                                </div>
+                                <button class="btn btn-primary" onclick="processText()">
+                                    <i class="fas fa-cogs me-1"></i>
+                                    Process Text
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div id="result" class="results-container"></div>
+            </div>
+        </div>
+
+        <div class="row mt-4 mb-4">
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-brain text-primary mb-3 feature-icon"></i>
+                        <h5>AI-Powered Analysis</h5>
+                        <p class="text-muted">Advanced algorithms process your text to extract meaningful insights</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-graduation-cap text-primary mb-3 feature-icon"></i>
+                        <h5>Educational Tools</h5>
+                        <p class="text-muted">Generate flashcards and quizzes automatically from your content</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm feature-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line text-primary mb-3 feature-icon"></i>
+                        <h5>Smart Insights</h5>
+                        <p class="text-muted">Get key takeaways and important concepts highlighted</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer py-4 bg-white shadow-sm">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <span class="text-muted">AI4EDU © 2024 - Transforming Text into Knowledge</span>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-inline mb-0 text-center text-md-end">
+                        <li class="list-inline-item">
+                            <a href="#" class="text-muted text-decoration-none">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-muted text-decoration-none">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="text-muted text-decoration-none">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // API endpoint configuration
+        const API_ENDPOINT = window.location.origin;
+        
+        // Track processing state
+        let isProcessing = false;
+
+        async function processText() {
+            const text = document.getElementById('text').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!text.trim()) {
+                showError('Please enter some text to process.');
+                return;
+            }
+
+            if (isProcessing) {
+                return;
+            }
+
+            isProcessing = true;
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_ENDPOINT}/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ text })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || 'Failed to process text');
+                }
+
+                const data = await response.json();
+                await displayResults(data);
+            } catch (error) {
+                console.error('Processing error:', error);
+                showError('Error processing text: ' + error.message);
+            } finally {
+                isProcessing = false;
+                hideLoading();
+            }
+        }
+
+        async function displayResults(data) {
+            const resultDiv = document.getElementById('result');
+            
+            const content = `
+                <div class="results-fade-in">
+                    <div class="card mb-4 result-card">
+                        <div class="card-header bg-white d-flex align-items-center">
+                            <i class="fas fa-file-alt text-primary me-2"></i>
+                            <h3 class="mb-0">Summary</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="lead">${data.summary}</p>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 result-card">
+                        <div class="card-header bg-white d-flex align-items-center">
+                            <i class="fas fa-tags text-primary me-2"></i>
+                            <h3 class="mb-0">Keywords</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="keywords-container">
+                                ${data.keywords.map(keyword => `
+                                    <span class="keyword">
+                                        <i class="fas fa-hashtag me-1"></i>
+                                        ${keyword}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 result-card">
+                        <div class="card-header bg-white d-flex align-items-center">
+                            <i class="fas fa-clone text-primary me-2"></i>
+                            <h3 class="mb-0">Flashcards</h3>
+                        </div>
+                        <div class="card-body">
+                            ${data.flashcards.map(card => `
+                                <div class="flashcard">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-question-circle text-primary me-2"></i>
+                                        <p class="mb-0"><strong>Question:</strong></p>
+                                    </div>
+                                    <p class="mb-3">${card.question}</p>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <i class="fas fa-lightbulb text-success me-2"></i>
+                                        <p class="mb-0"><strong>Answer:</strong></p>
+                                    </div>
+                                    <p class="mb-0">${card.answer}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="card mb-4 result-card">
+                        <div class="card-header bg-white d-flex align-items-center">
+                            <i class="fas fa-tasks text-primary me-2"></i>
+                            <h3 class="mb-0">Quizzes</h3>
+                        </div>
+                        <div class="card-body">
+                            ${data.quizzes.map((quiz, quizIndex) => `
+                                <div class="quiz-card">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-question-circle text-primary me-2"></i>
+                                        <p class="mb-0"><strong>${quiz.question}</strong></p>
+                                    </div>
+                                    <div class="options-container">
+                                        ${quiz.options.map((option, index) => `
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" 
+                                                    name="quiz-${quizIndex}" 
+                                                    id="option-${quizIndex}-${index}"
+                                                    onchange="checkAnswer(${quizIndex}, ${index}, ${quiz.correctAnswer})"
+                                                >
+                                                <label class="form-check-label" for="option-${quizIndex}-${index}">
+                                                    ${option}
+                                                </label>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                    <div class="feedback-message mt-2" id="feedback-${quizIndex}"></div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `
+
+            resultDiv.innerHTML = content;
+
+            // Animate results appearance
+            const cards = document.querySelectorAll('.result-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        }
+
+        function checkAnswer(quizIndex, selectedIndex, correctAnswer) {
+            const feedbackDiv = document.getElementById(`feedback-${quizIndex}`);
+            if (selectedIndex === correctAnswer) {
+                feedbackDiv.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Correct! Well done!
+                    </div>
+                `;
+            } else {
+                feedbackDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <i class="fas fa-times-circle me-2"></i>
+                        Incorrect. Try again!
+                    </div>
+                `;
+            }
+        }
+
+        function showError(message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle me-2"></i>
+                    ${message}
+                </div>
+            `;
+        }
+
+        function showLoading() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="loading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3">Processing your text...</p>
+                    <p class="text-muted small">Analyzing content and generating educational materials</p>
+                </div>
+            `;
+        }
+
+        function hideLoading() {
+            const loadingDiv = document.querySelector('.loading');
+            if (loadingDiv) {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Error handling for network issues
+        window.addEventListener('offline', () => {
+            showError('Network connection lost. Please check your internet connection.');
+        });
+
+        // Initialize any necessary setup
+        document.addEventListener('DOMContentLoaded', () => {
+            // Clear any previous results
+            document.getElementById('result').innerHTML = '';
+            
+            // Focus the text input
+            document.getElementById('text').focus();
+        });
+    </script>
+</body>
+</html>

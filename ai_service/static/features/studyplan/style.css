@@ -1,0 +1,121 @@
+.study-plan-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.study-plan-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.generate-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.generate-btn:hover {
+    background-color: #218838;
+}
+
+.close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+}
+
+.plan-table {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.plan-day {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.plan-day h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #28a745;
+}
+
+.plan-day ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.plan-day li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+.plan-day li:last-child {
+    border-bottom: none;
+}
+
+#studyPlanBtn {
+    margin: 8px 15px;
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#studyPlanBtn:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+} 

@@ -3,11 +3,11 @@
   "builds": [
     {
       "src": "app.py",
-      "use": "@vercel/python",
+      "use": "@vercel/python@2.0.0",
       "config": {
         "maxLambdaSize": "250mb",
         "runtime": "python3.9",
-        "buildCommand": "pip install --no-cache-dir -r requirements.txt && python -m spacy download en_core_web_sm && python -m nltk.downloader punkt averaged_perceptron_tagger stopwords wordnet omw-1.4"
+        "buildCommand": "pip install --no-cache-dir setuptools wheel && pip install --no-cache-dir -r requirements.txt && python -m spacy download en_core_web_sm && python -m nltk.downloader punkt averaged_perceptron_tagger stopwords wordnet omw-1.4"
       }
     }
   ],

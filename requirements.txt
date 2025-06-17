@@ -1,12 +1,13 @@
-anthropic==0.18.1
 flask==3.0.2
-flask-cors==4.0.0
+flask-cors==6.0.0
 nltk==3.8.1
+spacy==3.8.7
+gensim==4.3.3
 PyPDF2==3.0.1
-python-docx==1.1.0
-python-pptx==0.6.23
-spacy==3.7.4
-gensim==4.3.2
+python-docx==1.1.2
+python-pptx==1.0.2
+numpy==1.26.4
+scipy==1.13.1
 
 # After installing packages, run:
 # python -m spacy download en_core_web_sm 

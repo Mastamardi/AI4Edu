@@ -6,7 +6,11 @@
       "use": "@vercel/python"
     },
     {
-      "src": "frontend/**",
+      "src": "frontend/static/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "frontend/templates/**",
       "use": "@vercel/static"
     }
   ],
@@ -16,11 +20,16 @@
       "dest": "ai_service/app.py"
     },
     {
+      "src": "/static/(.*)",
+      "dest": "/frontend/static/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/frontend/$1"
+      "dest": "/frontend/index.html"
     }
   ],
   "env": {
-    "PYTHONPATH": "."
+    "PYTHONPATH": ".",
+    "FLASK_ENV": "production"
   }
 } 

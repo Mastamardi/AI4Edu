@@ -9,5 +9,7 @@ python-pptx==1.0.2
 numpy==1.26.4
 scipy==1.13.1
 
-# After installing packages, run:
-# python -m spacy download en_core_web_sm 
+# Build steps:
+# 1. pip install -r requirements.txt
+# 2. python -m spacy download en_core_web_sm
+# 3. python -m nltk.downloader punkt averaged_perceptron_tagger stopwords wordnet omw-1.4 

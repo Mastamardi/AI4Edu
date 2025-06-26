@@ -1,40 +1,9 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "ai_service/app.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9"
-      }
-    },
-    {
-      "src": "frontend/static/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "frontend/templates/**",
-      "use": "@vercel/static"
-    }
+    { "src": "api/app.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "ai_service/app.py"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "/ai_service/static/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/ai_service/app.py"
-    }
-  ],
-  "env": {
-    "PYTHONPATH": ".",
-    "FLASK_ENV": "production",
-    "FLASK_APP": "ai_service/app.py"
-  }
+    { "src": "/(.*)", "dest": "api/app.py" }
+  ]
 } 

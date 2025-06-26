@@ -631,3 +631,6 @@ def process_text():
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)
+
+# For Vercel serverless
+handler = app

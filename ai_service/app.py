@@ -18,6 +18,8 @@ import spacy
 import gensim.downloader as api
 from concurrent.futures import ThreadPoolExecutor
 import multiprocessing
+import requests
+import json
 
 # Download required NLTK data
 try:
@@ -628,6 +630,69 @@ def process_text():
     except Exception as e:
         print(f"Error processing file: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/translate', methods=['POST'])
+def translate_text():
+    try:
+        data = request.get_json()
+        text = data.get('text', '').strip()
+        source_language = data.get('sourceLanguage', 'auto')
+        target_language = data.get('targetLanguage', 'en')
+        
+        if not text:
+            return jsonify({"error": "Please enter text to translate"}), 400
+        
+        if source_language == target_language:
+            return jsonify({"error": "Source and target languages cannot be the same"}), 400
+        
+        # If source language is auto, detect it
+        if source_language == 'auto':
+            source_language = detect_language(text)
+        
+        # MyMemory API endpoint
+        url = f"https://api.mymemory.translated.net/get?q={requests.utils.quote(text)}&langpair={source_language}|{target_language}"
+        
+        response = requests.get(url)
+        
+        if not response.ok:
+            return jsonify({"error": "Translation API error. Please try again."}), 500
+        
+        data = response.json()
+        
+        if data.get('responseStatus') == 403:
+            return jsonify({"error": "Translation limit reached. Please try again later."}), 429
+        
+        if data.get('responseStatus') != 200:
+            return jsonify({"error": data.get('responseDetails', 'Translation failed. Please try again.')}), 500
+        
+        translated_text = data['responseData']['translatedText']
+        confidence = data['responseData'].get('match', 0.8)
+        
+        return jsonify({
+            "translatedText": translated_text,
+            "sourceLanguage": source_language,
+            "targetLanguage": target_language,
+            "confidence": confidence
+        })
+        
+    except Exception as e:
+        print(f"Translation error: {str(e)}")
+        return jsonify({"error": "Translation service is temporarily unavailable. Please try again."}), 500
+
+def detect_language(text):
+    """Simple language detection for Indian languages"""
+    if re.search(r'[\u0900-\u097F]', text): return 'hi'  # Devanagari (Hindi)
+    if re.search(r'[\u0980-\u09FF]', text): return 'bn'  # Bengali
+    if re.search(r'[\u0A00-\u0A7F]', text): return 'pa'  # Gurmukhi (Punjabi)
+    if re.search(r'[\u0A80-\u0AFF]', text): return 'gu'  # Gujarati
+    if re.search(r'[\u0B00-\u0B7F]', text): return 'or'  # Odia
+    if re.search(r'[\u0B80-\u0BFF]', text): return 'ta'  # Tamil
+    if re.search(r'[\u0C00-\u0C7F]', text): return 'te'  # Telugu
+    if re.search(r'[\u0C80-\u0CFF]', text): return 'kn'  # Kannada
+    if re.search(r'[\u0D00-\u0D7F]', text): return 'ml'  # Malayalam
+    if re.search(r'[\u0600-\u06FF]', text): return 'ur'  # Arabic (Urdu)
+    
+    return 'en'  # Default to English
 
 if __name__ == '__main__':
     app.run(port=5001, debug=True)

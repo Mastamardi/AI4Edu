@@ -6,9 +6,9 @@
     <title>AI4Edu - Quality Education</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="static/studyplan.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="static/studyplan.js" defer></script>
+    <script src="static/js/main.js" defer></script>
     <style>
         :root {
             --primary-color: #4a6fa5;
@@ -1883,28 +1883,28 @@
                         
                         <div class="beat-card">
                             <div class="video-thumbnail">
-                                <img src="https://img.youtube.com/vi/8iYEnR1ot44/mqdefault.jpg" alt="Beta Waves Binaural Beats" class="thumbnail-img">
+                                <img src="https://img.youtube.com/vi/2OEL4P1Rz04/mqdefault.jpg" alt="Gamma Waves Binaural Beats" class="thumbnail-img">
                                 <div class="play-overlay">
                                     <i class="fab fa-youtube"></i>
                                 </div>
                             </div>
-                            <h4>Beta Waves (13-30 Hz) - Active Learning</h4>
-                            <p>Ideal for active problem-solving and analysis</p>
-                            <a href="https://www.youtube.com/watch?v=8iYEnR1ot44" target="_blank" class="beat-link">
+                            <h4>Gamma Waves (30-50 Hz) - Peak Focus</h4>
+                            <p>Boosts memory and cognitive processing</p>
+                            <a href="https://www.youtube.com/watch?v=2OEL4P1Rz04" target="_blank" class="beat-link">
                                 <i class="fab fa-youtube"></i> Listen on YouTube
                             </a>
                         </div>
                         
                         <div class="beat-card">
                             <div class="video-thumbnail">
-                                <img src="https://img.youtube.com/vi/H9y6qXwqJ8E/mqdefault.jpg" alt="Theta Waves Binaural Beats" class="thumbnail-img">
+                                <img src="https://img.youtube.com/vi/5qap5aO4i9A/mqdefault.jpg" alt="LoFi Hip Hop Binaural Beats" class="thumbnail-img">
                                 <div class="play-overlay">
                                     <i class="fab fa-youtube"></i>
                                 </div>
                             </div>
-                            <h4>Theta Waves (4-8 Hz) - Deep Learning</h4>
-                            <p>For deep comprehension and memory retention</p>
-                            <a href="https://www.youtube.com/watch?v=H9y6qXwqJ8E" target="_blank" class="beat-link">
+                            <h4>LoFi Hip Hop - Study & Relax</h4>
+                            <p>Chill beats for relaxed, focused study sessions</p>
+                            <a href="https://www.youtube.com/watch?v=5qap5aO4i9A" target="_blank" class="beat-link">
                                 <i class="fab fa-youtube"></i> Listen on YouTube
                             </a>
                         </div>
@@ -2657,62 +2657,66 @@
                         </div>
                     </li>
                 `).join('');
-                updateGoalsBadge();
             }
 
-            // Save goals to localStorage
-            function saveGoals() {
-                localStorage.setItem('studyGoals', JSON.stringify(goals));
-                renderGoals();
-            }
-
-            // Toggle goal completion
-            window.toggleGoal = function(index) {
-                goals[index].completed = !goals[index].completed;
-                saveGoals();
-            };
-
-            // Delete goal
-            window.deleteGoal = function(index) {
-                goals.splice(index, 1);
-                saveGoals();
-            };
-
-            // Add new goal
-            goalForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const text = document.getElementById('goal-input').value.trim();
-                const frequency = document.getElementById('goal-frequency').value;
-                
-                if (text) {
-                    goals.push({
-                        text,
-                        frequency,
-                        completed: false,
-                        createdAt: new Date().toISOString()
-                    });
-                    saveGoals();
-                    goalForm.reset();
-                }
-            });
-
-            // Toggle modal
+            // Open goals modal
             goalsBtn.addEventListener('click', () => {
                 goalsModal.classList.add('active');
             });
 
+            // Close goals modal
             closeGoalsBtn.addEventListener('click', () => {
                 goalsModal.classList.remove('active');
             });
 
             // Close modal when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!goalsModal.contains(e.target) && !goalsBtn.contains(e.target)) {
+            goalsModal.addEventListener('click', (e) => {
+                if (e.target === goalsModal) {
                     goalsModal.classList.remove('active');
                 }
             });
 
-            // Initial render
+            // Handle form submission
+            goalForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const goalInput = document.getElementById('goal-input');
+                const goalFrequency = document.getElementById('goal-frequency');
+                
+                const text = goalInput.value.trim();
+                const frequency = goalFrequency.value;
+                
+                if (text) {
+                    goals.push({ text, frequency, completed: false });
+                    localStorage.setItem('studyGoals', JSON.stringify(goals));
+                    updateGoalsBadge();
+                    renderGoals();
+                    
+                    // Reset form
+                    goalInput.value = '';
+                    goalFrequency.value = 'daily';
+                }
+            });
+
+            // Make functions globally available
+            window.toggleGoal = function(index) {
+                goals[index].completed = !goals[index].completed;
+                localStorage.setItem('studyGoals', JSON.stringify(goals));
+                updateGoalsBadge();
+                renderGoals();
+            };
+
+            window.deleteGoal = function(index) {
+                const confirmDelete = confirm('Are you sure you want to delete this goal?');
+                if (confirmDelete) {
+                    goals.splice(index, 1);
+                    localStorage.setItem('studyGoals', JSON.stringify(goals));
+                    updateGoalsBadge();
+                    renderGoals();
+                }
+            };
+
+            // Initialize goals
+            updateGoalsBadge();
             renderGoals();
         });
 
@@ -2721,148 +2725,86 @@
             const featuresModal = document.getElementById('features-modal');
             const featuresBtn = document.getElementById('features-btn');
             const closeFeaturesBtn = document.querySelector('.close-features');
+            const translateBtn = document.getElementById('translate-btn');
+            const swapBtn = document.getElementById('swap-languages');
             const translateInput = document.getElementById('translate-input');
             const translateOutput = document.getElementById('translate-output');
-            const translateBtn = document.getElementById('translate-btn');
-            const swapLanguagesBtn = document.getElementById('swap-languages');
             const sourceLanguage = document.getElementById('source-language');
             const targetLanguage = document.getElementById('target-language');
 
-            // Toggle modal
+            // Open features modal
             featuresBtn.addEventListener('click', () => {
                 featuresModal.classList.add('active');
             });
 
+            // Close features modal
             closeFeaturesBtn.addEventListener('click', () => {
                 featuresModal.classList.remove('active');
             });
 
             // Close modal when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!featuresModal.contains(e.target) && !featuresBtn.contains(e.target)) {
+            featuresModal.addEventListener('click', (e) => {
+                if (e.target === featuresModal) {
                     featuresModal.classList.remove('active');
                 }
             });
 
-            // Swap languages functionality
-            swapLanguagesBtn.addEventListener('click', () => {
-                const sourceValue = sourceLanguage.value;
-                const targetValue = targetLanguage.value;
-                
-                // Don't swap if source is "auto"
-                if (sourceValue !== 'auto') {
-                    sourceLanguage.value = targetValue;
-                    targetLanguage.value = sourceValue;
-                    
-                    // Also swap the text content
-                    const inputText = translateInput.value;
-                    const outputText = translateOutput.value;
-                    
-                    if (outputText && outputText !== 'Translation will appear here...') {
-                        translateInput.value = outputText.replace(/^\[.*?\]\s*/, '');
-                        translateOutput.value = '';
-                    }
-                }
+            // Swap languages
+            swapBtn.addEventListener('click', () => {
+                const temp = sourceLanguage.value;
+                sourceLanguage.value = targetLanguage.value;
+                targetLanguage.value = temp;
             });
 
-            // Translation functionality
+            // Translate text
             translateBtn.addEventListener('click', async () => {
                 const text = translateInput.value.trim();
-                const fromLang = sourceLanguage.value;
-                const toLang = targetLanguage.value;
-                
                 if (!text) {
+                    alert('Please enter text to translate');
                     return;
                 }
-                
-                // Simulate API call delay
+
                 translateBtn.disabled = true;
                 translateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Translating...';
-                
+
                 try {
-                    const response = await fetch('http://127.0.0.1:5001/translate', {
+                    const response = await fetch('http://127.0.0.1:5005/translate', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             text: text,
-                            sourceLanguage: fromLang,
-                            targetLanguage: toLang
+                            sourceLanguage: sourceLanguage.value,
+                            targetLanguage: targetLanguage.value
                         })
                     });
-                    
+
                     const data = await response.json();
-                    
-                    if (response.ok) {
-                        translateOutput.value = data.translatedText;
-                        translateOutput.style.display = 'block';
-                    } else {
+
+                    if (data.error) {
                         translateOutput.value = `Error: ${data.error}`;
-                        translateOutput.style.display = 'block';
+                    } else {
+                        translateOutput.value = data.translatedText;
                     }
                 } catch (error) {
-                    console.error('Translation error:', error);
-                    translateOutput.value = 'Translation service is temporarily unavailable. Please try again.';
-                    translateOutput.style.display = 'block';
+                    translateOutput.value = `Error: ${error.message}`;
                 } finally {
                     translateBtn.disabled = false;
                     translateBtn.innerHTML = '<i class="fas fa-language"></i> Translate';
                 }
             });
 
-            // Real-time translation on input (debounced)
-            let translationTimeout;
-            translateInput.addEventListener('input', () => {
-                const text = translateInput.value.trim();
-                const fromLang = sourceLanguage.value;
-                const toLang = targetLanguage.value;
-                
-                clearTimeout(translationTimeout);
-                
-                if (text.length > 3 && fromLang !== 'auto') {
-                    translationTimeout = setTimeout(async () => {
-                        try {
-                            const response = await fetch('http://127.0.0.1:5001/translate', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
-                                body: JSON.stringify({
-                                    text: text,
-                                    sourceLanguage: fromLang,
-                                    targetLanguage: toLang
-                                })
-                            });
-                            
-                            const data = await response.json();
-                            
-                            if (response.ok) {
-                                translateOutput.value = data.translatedText;
-                                translateOutput.style.display = 'block';
-                            }
-                        } catch (error) {
-                            console.error('Real-time translation error:', error);
-                        }
-                    }, 1000);
-                } else if (text.length === 0) {
-                    translateOutput.style.display = 'none';
-                }
-            });
-
-            // Language change handler
-            sourceLanguage.addEventListener('change', () => {
-                if (translateInput.value.trim()) {
-                    translateBtn.click();
-                }
-            });
-
-            targetLanguage.addEventListener('change', () => {
-                if (translateInput.value.trim()) {
+            // Handle Enter key in translate input
+            translateInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
                     translateBtn.click();
                 }
             });
         });
+
+        // Study Goals Implementation
     </script>
 </body>
 </html>

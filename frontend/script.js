@@ -232,7 +232,7 @@ async function processFile() {
             const base64Content = e.target.result.split(',')[1];
             
             try {
-                const response = await fetch('http://127.0.0.1:5001/process', {
+                const response = await fetch('http://127.0.0.1:5005/process', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

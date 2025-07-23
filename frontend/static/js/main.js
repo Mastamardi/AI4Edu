@@ -10,7 +10,7 @@ async function processText() {
     showLoading();
     
     try {
-        const response = await fetch('http://127.0.0.1:5001/process', {
+        const response = await fetch('http://127.0.0.1:5005/process', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

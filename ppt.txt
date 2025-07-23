@@ -1,0 +1,122 @@
+AI4Edu – Empowering Education Through Artificial Intelligence
+
+Introduction:
+AI4Edu is an innovative platform designed to revolutionize the way students and educators interact with study materials. By leveraging advanced artificial intelligence, AI4Edu automatically generates concise summaries, smart flashcards, and interactive quizzes from uploaded documents such as PDFs, Word files, and presentations. Our mission is to make quality education more accessible, efficient, and personalized, helping learners understand complex topics, retain information better, and track their progress with ease. AI4Edu supports multiple languages and offers real-time translation, making it a versatile tool for diverse educational needs. 
+
+Problem Statement:
+Despite the abundance of educational resources, students often struggle to efficiently process, understand, and retain large volumes of study material. Traditional learning methods can be time-consuming and may not cater to individual learning needs. There is a need for an intelligent system that can automatically summarize content, generate study aids, and provide interactive assessments to enhance learning outcomes and make education more accessible and effective for everyone. 
+
+Literature Survey
+
+| Sl No | Author(s) and Paper Title                                                                 | Details of Publication                                                                                      | Summary of the Paper                                                                                                                                                                                                                 |
+|-------|------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | **Authors:** Z. Chen, H. Xie, X. Zou, T. Wang<br>**Paper Title:** Automatic Generation of Educational Questions: A Survey | **Journal:** IEEE Transactions on Learning Technologies<br>**Year:** 2021<br>**DOI:** 10.1109/TLT.2021.3054882 | Reviews methods for automatic question generation using NLP and deep learning, highlighting applications in intelligent tutoring and personalized learning. Discusses challenges in generating high-quality, diverse questions. |
+| 2     | **Authors:** S. Banerjee, A. Mitra, S. Naskar<br>**Paper Title:** Automatic Text Summarization: A Comprehensive Survey | **Journal:** ACM Computing Surveys<br>**Year:** 2022<br>**DOI:** 10.1145/3505245 | Surveys extractive and abstractive summarization techniques, including deep learning and transformer-based models, and their applications in educational content simplification and study aid generation. |
+| 3     | **Authors:** S. K. Dwivedi, V. K. Bharadwaj<br>**Paper Title:** Intelligent Tutoring Systems: A Comprehensive Survey | **Journal:** Artificial Intelligence Review<br>**Year:** 2021<br>**DOI:** 10.1007/s10462-020-09889-2 | Explores the use of AI and NLP in intelligent tutoring systems for personalized education, including automatic feedback, adaptive quizzes, and content recommendation. |
+| 4     | **Authors:** D. Wu, Y. Zhang, M. Zhou<br>**Paper Title:** Neural Machine Translation for Education: Opportunities and Challenges | **Journal:** IEEE Access<br>**Year:** 2020<br>**DOI:** 10.1109/ACCESS.2020.2974811 | Discusses the application of neural machine translation in educational platforms, enabling multilingual content delivery and real-time translation for diverse learners. | 
+
+Proposed Methodology
+
+1. User uploads document (PDF/DOCX/PPTX/TXT)
+2. System extracts and preprocesses text
+3. Text is tokenized and segmented
+4. AI models generate:
+   - Summary
+   - Keywords
+   - Flashcards
+   - Quiz questions
+   - (Optional) Translation
+5. Results are aggregated
+6. User views outputs in an interactive dashboard 
+
+Architecture Diagram
+
+1. User Interface (Web Frontend)
+   - File upload
+   - Dashboard display (summary, keywords, flashcards, quiz, translation)
+
+2. Backend Server (Flask API)
+   - Handles file upload requests
+   - Manages processing pipeline
+
+3. Processing Pipeline
+   - File Type Detector & Text Extractor (PDF/DOCX/PPTX/TXT)
+   - Text Preprocessing & Cleaning
+   - NLP Engine (Summarization, Keyword Extraction, Flashcard & Quiz Generation, Translation)
+
+4. External Services/APIs
+   - Machine Translation API (for language translation)
+   - Pre-trained NLP models (spaCy, NLTK, word2vec, etc.)
+
+5. Results Aggregation
+   - Compiles all outputs for frontend
+
+6. Data Flow
+   - User → Frontend → Backend → Processing Pipeline → Results → Frontend (Dashboard) 
+
+Flowchart / Workflow Diagram
+
+1. Start
+2. User uploads document (PDF/DOCX/PPTX/TXT)
+3. System extracts and preprocesses text
+4. Is text extraction successful?
+   - No: Show error message and stop
+   - Yes: Continue
+5. Text is tokenized and segmented
+6. AI models process text to generate:
+   - Summary
+   - Keywords
+   - Flashcards
+   - Quiz questions
+   - (Optional) Translation
+7. Aggregate results
+8. Display outputs in dashboard (summary, keywords, flashcards, quiz, translation)
+9. End 
+
+Implementation Details
+
+- **Frontend:**
+  - HTML, CSS, JavaScript
+  - Responsive UI with custom styles
+  - Interactive dashboard for summary, keywords, flashcards, quizzes, and translation
+
+- **Backend:**
+  - Python (Flask framework)
+  - RESTful API for file upload and processing
+  - Handles text extraction, NLP processing, and result aggregation
+
+- **NLP & AI Libraries:**
+  - spaCy (tokenization, POS tagging, NER)
+  - NLTK (tokenization, stopwords, WordNet)
+  - gensim (word2vec embeddings)
+  - PyPDF2, python-docx, python-pptx (file parsing)
+
+- **Parallel Processing:**
+  - ThreadPoolExecutor and multiprocessing for efficient handling of large files
+
+- **External APIs:**
+  - MyMemory Translation API for real-time language translation
+
+- **Deployment:**
+  - Runs locally or can be deployed on cloud platforms (Heroku, AWS, etc.)
+
+- **Other Features:**
+  - Multi-format file support (PDF, DOCX, PPTX, TXT)
+  - Error handling and user feedback
+  - Modular code structure for easy maintenance and extension 
+
+Conclusion and Future Work
+
+1. AI4Edu streamlines study material processing, making learning more efficient and accessible.
+2. The platform demonstrates the potential of AI in automating educational content generation and personalization.
+3. Future work includes improving question quality, adding more languages, and integrating adaptive learning features. 
+
+References
+
+1. Z. Chen, H. Xie, X. Zou, T. Wang, "Automatic Generation of Educational Questions: A Survey," IEEE Transactions on Learning Technologies, 2021. doi:10.1109/TLT.2021.3054882
+2. S. Banerjee, A. Mitra, S. Naskar, "Automatic Text Summarization: A Comprehensive Survey," ACM Computing Surveys, 2022. doi:10.1145/3505245
+3. S. K. Dwivedi, V. K. Bharadwaj, "Intelligent Tutoring Systems: A Comprehensive Survey," Artificial Intelligence Review, 2021. doi:10.1007/s10462-020-09889-2
+4. D. Wu, Y. Zhang, M. Zhou, "Neural Machine Translation for Education: Opportunities and Challenges," IEEE Access, 2020. doi:10.1109/ACCESS.2020.2974811
+5. spaCy Documentation: https://spacy.io/
+6. NLTK Documentation: https://www.nltk.org/
+7. MyMemory Translation API: https://mymemory.translated.net/doc/spec.php 
